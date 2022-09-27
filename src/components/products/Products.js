@@ -59,7 +59,7 @@ function Products() {
   );
 
   console.log("products", products)
-  let initialProducts = !!filteredPersons || filteredPersons.length > 0 ? filteredPersons : products
+  let initialProducts = !!filteredPersons && filteredPersons.length > 0 ? filteredPersons : products
 
   let getData
 
