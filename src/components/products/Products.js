@@ -11,6 +11,9 @@ import { useDispatch } from 'react-redux'
 
 function Products() {
   const dispatch = useDispatch()
+   // the search result
+   const [initialProduct, setInitialProduct] = useState(useGetProductsQuery({ refetchOnMountOrArgChange: true }).data);
+   const [searchField, setSearchField] = useState("");
 
   let productObj = {
     id: '',
@@ -42,15 +45,16 @@ function Products() {
   } = useGetProductsQuery({ refetchOnMountOrArgChange: true })
 
   useEffect(() => {}, [dispatch])
-
-  // the search result
-  const [searchField, setSearchField] = useState("");
+  useEffect(() => {
+    setInitialProduct(products)
+  }, [products])
 
   const handleChange = e => {
     setSearchField(e.target.value);
   };
+  console.log("initialProduct", initialProduct)
   //const filteredPersons = []
-  const filteredPersons = useGetProductsQuery({ refetchOnMountOrArgChange: true }).data.filter(
+  const filteredPersons = initialProduct.filter(
     product => {
       return (
         product.description.toLowerCase().includes(searchField.toLowerCase())
