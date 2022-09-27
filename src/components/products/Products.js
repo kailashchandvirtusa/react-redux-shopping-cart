@@ -57,7 +57,7 @@ function Products() {
     getData = products.map((item) => {
       return (
         <div className="col" key={item.id}>
-          <div className="card h-100 product-card">
+          <div className="card h-100 product-card box-shadow">
             <div className="img-grid mb-3">
               <img src={item.image} className="card-img-top" alt={item.title} />
             </div>
