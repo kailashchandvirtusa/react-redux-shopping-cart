@@ -5,7 +5,6 @@ import { useSelector } from 'react-redux'
 
 function Header() {
   const { totalCount } = useSelector((state) => state.cart)
-
   return (
     <header>
       <div className="d-flex flex-column flex-md-row align-items-center pb-3 mb-3 border-bottom">
