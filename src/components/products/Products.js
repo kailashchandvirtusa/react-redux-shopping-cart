@@ -53,7 +53,7 @@ function Products() {
   const filteredPersons = useGetProductsQuery({ refetchOnMountOrArgChange: true }).data.filter(
     product => {
       return (
-        product.title.toLowerCase().includes(searchField.toLowerCase())
+        product.description.toLowerCase().includes(searchField.toLowerCase())
       );
     }
   );
