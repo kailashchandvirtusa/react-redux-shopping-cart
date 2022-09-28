@@ -11,10 +11,10 @@ import { useDispatch } from 'react-redux'
 
 function Products() {
   const dispatch = useDispatch()
-   // the search result
-   const [initialProduct, setInitialProduct] = useState(useGetProductsQuery({ refetchOnMountOrArgChange: true }).data);
-   const [searchField, setSearchField] = useState("");
+  // the set initial products
+  const [initialProduct, setInitialProduct] = useState(useGetProductsQuery({ refetchOnMountOrArgChange: true }).data);
 
+   // product property
   let productObj = {
     id: '',
     title: '',
@@ -22,6 +22,7 @@ function Products() {
     image: '',
   }
 
+  // adding add to cart dispatch functionality
   const addToCart = (item) => {
     productObj = {
       id: item.id,
@@ -36,6 +37,7 @@ function Products() {
     dispatch(getTotalAmount())
   }
 
+  // fetch products response from reduc store
   const {
     data: products,
     isLoading: isProductLoading,
@@ -49,22 +51,26 @@ function Products() {
     setInitialProduct(products)
   }, [products])
 
+  
   const handleChange = e => {
-    setSearchField(e.target.value);
-  };
-  console.log("initialProduct", initialProduct)
-  //const filteredPersons = []
-  const filteredPersons = initialProduct.filter(
-    product => {
-      return (
-        product.description.toLowerCase().includes(searchField.toLowerCase())
+    let searchInput = e.target.value
+    if(searchInput.length >= 2){
+      const filteredProducts = initialProduct.filter(
+        product => {
+          return (
+            product.description.toLowerCase().includes(searchInput.toLowerCase())
+          );
+        }
       );
+      setInitialProduct(filteredProducts)
+    }else{
+      setInitialProduct(products)
     }
-  );
-
-  console.log("products", products)
-  let initialProducts = !!filteredPersons && filteredPersons.length > 0 ? filteredPersons : products
-
+  };
+ 
+  // checking search product items length after search searching else passing initial products
+  let filteredProducts = !!initialProduct && initialProduct.length > 0 ? initialProduct : products
+  
   let getData
 
   if (isProductLoading) {
@@ -76,7 +82,7 @@ function Products() {
       </div>
     )
   } else if (isProductSuccess) {
-      getData = initialProducts.map((item) => {
+      getData = filteredProducts.map((item) => {
         return (
           <div className="col" key={item.id}>
             <div className="card h-100 product-card box-shadow">
@@ -118,7 +124,7 @@ function Products() {
         <input
           className="search-input"
           type = "search" 
-          placeholder = "Search Product" 
+          placeholder = "Search for products" 
           onChange = {handleChange}
         />
       </div>
